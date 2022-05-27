@@ -38,3 +38,14 @@ export const SetCache = async (key: string, value: any) => {
     return Promise.reject(err)
   }
 };
+
+export const SetExCache = async (key: string, value: any, expInSec: number) => {
+  try {
+    const result = await client.set(`${process.env.REDIS_PREFIX}${key}`, JSON.stringify(value), {
+      EX: expInSec
+    })
+    return result
+  } catch (err) {
+    return Promise.reject(err)
+  }
+};
