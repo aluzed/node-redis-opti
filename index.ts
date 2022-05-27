@@ -1,8 +1,8 @@
 import express from 'express'
 import type { Express, Request, Response } from 'express'
 import dotenv from 'dotenv'
-import { DbGetUsers, DbRemoveUser, DbSaveUser, DbGetPets, DbGetUserPets, DbRemovePet, DbSavePet, DbGetUser } from './libs/fakeDb'
-import { CleanPattern, GetCache, SetCache, SetExCache } from './libs/cache'
+import { DbGetUsers, DbRemoveUser, DbSaveUser, DbGetUserPets, DbRemovePet, DbSavePet, DbGetUser } from './libs/fakeDb'
+import { CleanPattern, GetCache, SetCache } from './libs/cache'
 
 dotenv.config()
 
@@ -124,7 +124,7 @@ app.get('/add_pet/:user', async (req: Request, res: Response) => {
 
     const result = await DbSavePet(userName, petName)
     await CleanPattern('users')
-    await CleanPattern(`users:${userName}:*`)
+    await CleanPattern(`users:${userName}*`)
     return res.status(201).json(result)
 
   } catch (err) {
@@ -144,7 +144,7 @@ app.get('/del_pet/:user', async (req: Request, res: Response) => {
 
     const result = await DbRemovePet(userName, petName)
     await CleanPattern('users')
-    await CleanPattern(`users:${userName}:*`)
+    await CleanPattern(`users:${userName}*`)
     return res.status(201).json(result)
 
   } catch (err) {
