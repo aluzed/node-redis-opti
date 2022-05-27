@@ -4,7 +4,7 @@ const client = createClient({
   url: process.env.REDIS_URL,
 });
 
-// Run from start
+// Run on startup
 (async () => {
   await client.connect()
   // On initialization, flush cache
