@@ -49,3 +49,16 @@ export const SetExCache = async (key: string, value: any, expInSec: number) => {
     return Promise.reject(err)
   }
 };
+
+export const CleanPattern = async (key: string) => {
+  try {
+    const matches = await client.keys(`${process.env.REDIS_PREFIX}${key}`)
+    for (let key of matches) {
+      await client.del(key)
+    }
+    return matches.length
+  } catch (err) {
+    return Promise.reject(err)
+  }
+};
+
